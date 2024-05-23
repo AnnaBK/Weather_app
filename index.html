@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./main.css">
+    <title>Weather</title>
+</head>
+<body>
+    <div class="container">
+    <form class="input-panel" action="#">
+        <input type="text" id="city-name" placeholder="Search city...">
+        <button type="submit" id="search-form">Show the weather</button>
+    </form>
+    <div class="weather-container">
+        <div class="current-weather">
+            <h1 id="current-city">Location</h1>
+            <h1 class="col temp-title" id="current-temperature">Loading...</h1>
+            <button id="toggle-units">Change to Fahrenheit</button>
+            <div class="col todays-info">
+              <p id="current-time"></p>
+              <h2 id="current-day"></h2>
+              <p id="weather-type">Weather</p>
+            </div>
+            <div class="col d-flex align-items-center side-info">
+              <ul>
+                <li>Humidity: <span id="humidity"></span></li>
+                <li>Wind: <span id="wind"></span></li>
+              </ul>
+        </div>
+        <div class="week-forecast" id="week-forecast"></div>
+    </div>
+    <div class="weather-panel"></div>
+    </div>
+
+    <script src="./main.js"></script>
+    <script src="./model.js"></script>
+    <script src="./view.js"></script>
+    <script src="./controller.js"></script>
+</body>
+</html>
