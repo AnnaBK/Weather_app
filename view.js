@@ -2,15 +2,15 @@ class WeatherView {
   constructor() {
     this.currentTimeElement = document.querySelector("#current-time");
     this.currentDayElement = document.querySelector("#current-day");
-    //   this.searchedCityElement = document.querySelector("#city-name").value;
     this.currentCityElement = document.querySelector("#current-city");
     this.currentTemperatureElement = document.querySelector(
       "#current-temperature"
     );
+    this.currentIconElement = document.querySelector("#current-icon");
     this.humidityElement = document.querySelector("#humidity");
     this.windElement = document.querySelector("#wind");
     this.weatherTypeElement = document.querySelector("#weather-type");
-    this.searchBarElement = document.querySelector("#search-form");
+    this.searchBarElement = document.querySelector("#search-button");
     this.weekForecastElement = document.querySelector("#week-forecast");
     this.toggleUnitsButton = document.querySelector("#toggle-units");
     this.isCelsius = true;
@@ -63,6 +63,7 @@ class WeatherView {
     const windSpeed = Math.round(data.wind.speed);
     this.windElement.innerHTML = `${windSpeed}m/s`;
     this.weatherTypeElement.innerHTML = data.weather[0].main;
+    this.currentIconElement.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
   }
 
   displayForecast(data) {
@@ -76,27 +77,28 @@ class WeatherView {
         const weather = item.weather[0].main;
         const icon = `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
 
-        const forecastCol = document.createElement("div");
-        forecastCol.classList.add("col");
-        forecastCol.innerHTML = `
+        const forecastDiv = document.createElement("div");
+        forecastDiv.classList.add("forecast-day");
+        forecastDiv.innerHTML = `
                     <h3>${day}</h3>
                     <br /><img src="${icon}" /><br />
                     <p class="weather">${weather}</p>
                     <span>${temp}°</span>
                 `;
-        this.weekForecastElement.appendChild(forecastCol);
+        this.weekForecastElement.appendChild(forecastDiv);
       }
     });
   }
 
   displayError(message) {
     this.currentCityElement.innerHTML = message;
-    this.currentTemperatureElement.innerHTML = '';
-    this.humidityElement.innerHTML = '';
-    this.windElement.innerHTML = '';
-    this.weatherTypeElement.innerHTML = '';
-    this.weekForecastElement.innerHTML = '';
-}
+    this.currentTemperatureElement.innerHTML = "";
+    this.humidityElement.innerHTML = "";
+    this.windElement.innerHTML = "";
+    this.weatherTypeElement.innerHTML = "";
+    this.currentIconElement.src = "";
+    this.weekForecastElement.innerHTML = "";
+  }
 
   setSearchHandler(handler) {
     this.searchBarElement.addEventListener("click", handler);
@@ -104,15 +106,17 @@ class WeatherView {
 
   setToggleUnitsHandler(handler) {
     this.toggleUnitsButton.addEventListener("click", handler);
-}
+  }
 
-toggleUnits() {
+  toggleUnits() {
     this.isCelsius = !this.isCelsius;
-    this.toggleUnitsButton.innerHTML = this.isCelsius ? 'Change to Fahrenheit' : 'Change to Celsius';
-}
+    this.toggleUnitsButton.innerHTML = this.isCelsius
+      ? "Change to Fahrenheit"
+      : "Change to Celsius";
+  }
 
-updateTemperatureDisplay(tempCelsius) {
-    const temp = this.isCelsius ? tempCelsius : (tempCelsius * 9/5) + 32;
+  updateTemperatureDisplay(tempCelsius) {
+    const temp = this.isCelsius ? tempCelsius : (tempCelsius * 9) / 5 + 32;
     this.currentTemperatureElement.innerHTML = `${Math.round(temp)}°`;
-}
+  }
 }
